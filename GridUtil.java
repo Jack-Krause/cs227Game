@@ -30,8 +30,30 @@ public class GridUtil {
 	 * @return a 2D array of cells the represent the grid without any blocks present
 	 */
 	public static Cell[][] createGrid(String[][] desc) {
-		// TODO
-		return null;
+		int descLength=desc[0].length;
+		Cell[][] grid = new Cell[desc.length][descLength];
+		for (int i=0; i<desc.length; i++) {
+			for (int k=0; k<desc[i].length; k++) {
+				if (desc[i][k] == "*") {
+					Cell newCell = new Cell(WALL, i, k);
+					grid[i][k] = newCell;
+				} else if (desc[i][k] == "e") {
+					Cell newCell = new Cell(EXIT, i, k);
+					grid[i][k] = newCell;
+				} else if (desc[i][k] == ".") {
+					Cell newCell = new Cell(FLOOR, i, k);
+					grid[i][k] = newCell;
+					//"[", "]", "^", "v", or "#"
+				} else if (desc[i][k] == "[" || desc[i][k] == "]" || desc[i][k] == "^" || desc[i][k] == "v" || desc[i][k] == "#") {
+					Cell newCell = new Cell(FLOOR, i, k);
+					grid[i][k] = newCell;
+				}
+			}
+		}
+		
+		
+		
+		return grid;
 	}
 
 	/**
@@ -53,7 +75,28 @@ public class GridUtil {
 	 * @return a list of blocks found in the given grid description
 	 */
 	public static ArrayList<Block> findBlocks(String[][] desc) {
-		// TODO
-		return null;
+		ArrayList<Block> blockList = new ArrayList<Block>();
+		
+	
+		for (int i=0; i<desc.length; i++) {
+			for (int k=0; k<desc[i].length; k++) {
+				if (desc[i][k] == "[") {
+					Block tempBlock = new Block(i, k, 1, HORIZONTAL);
+					blockList.add(tempBlock);
+				} else if (desc[i][k] == "]") {
+					Block tempBlock = new Block(i, k, 1, HORIZONTAL);
+					blockList.add(tempBlock);
+				} else if (desc[i][k] == "^") {
+					Block tempBlock = new Block(i, k, 1, VERTICAL);
+					blockList.add(tempBlock);
+				} else if (desc[i][k] == "v") {
+					Block tempBlock = new Block(i, k, 1, VERTICAL);
+					blockList.add(tempBlock);
+				}
+			}
+		}
+		
+		
+		return blockList;
 	}
 }
