@@ -15,8 +15,8 @@ import static api.CellType.*;
 public class Block {
 	
 	private int firstRow;
-	int row;
-	int col;
+	private int rowSaved;
+	private int colSaved;
 	private int firstCol;
 	private int length;
 	private Orientation orientation;
@@ -40,8 +40,8 @@ public class Block {
 		this.firstCol = firstCol;
 		this.length = length;
 		this.orientation = orientation;
-		row = firstRow;
-		col = firstCol;
+		rowSaved = firstRow;
+		colSaved = firstCol;
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class Block {
 	 * that were passed to the constructor during initialization of the the block.
 	 */
 	public void reset() {
-		row = firstRow;
-		col = firstCol;
+		firstRow = rowSaved;
+		firstCol = colSaved;
 	}
 
 	/**
@@ -64,16 +64,19 @@ public class Block {
 	public void move(Direction dir) {
 		if (orientation == VERTICAL) {
 			if (dir == DOWN) {
-				row--;
+				firstRow--;
+//				row--;
 			} else if (dir == UP) {
-				row++;
+				firstRow++;
+//				row++;
 			}
 		} else if (orientation == HORIZONTAL) {
-			// right and left
 			if (dir == RIGHT) {
-				col++;
+				firstCol++;
+//				col++;
 			} else if (dir == LEFT) {
-				col--;
+				firstCol--;
+//				col--;
 			}
 		}
 	}
