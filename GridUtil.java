@@ -30,21 +30,22 @@ public class GridUtil {
 	 * @return a 2D array of cells the represent the grid without any blocks present
 	 */
 	public static Cell[][] createGrid(String[][] desc) {
+		
 		int descLength=desc[0].length;
 		Cell[][] grid = new Cell[desc.length][descLength];
 		for (int i=0; i<desc.length; i++) {
 			for (int k=0; k<desc[i].length; k++) {
-				if (desc[i][k] == "*") {
+				if (desc[i][k].equals("*")) {
 					Cell newCell = new Cell(WALL, i, k);
 					grid[i][k] = newCell;
-				} else if (desc[i][k] == "e") {
+				} else if (desc[i][k].equals("e")) {
 					Cell newCell = new Cell(EXIT, i, k);
 					grid[i][k] = newCell;
-				} else if (desc[i][k] == ".") {
+				} else if (desc[i][k].equals(".")) {
 					Cell newCell = new Cell(FLOOR, i, k);
 					grid[i][k] = newCell;
 					//"[", "]", "^", "v", or "#"
-				} else if (desc[i][k] == "[" || desc[i][k] == "]" || desc[i][k] == "^" || desc[i][k] == "v" || desc[i][k] == "#") {
+				} else if (desc[i][k].equals("[") || desc[i][k] == "]" || desc[i][k] == "^" || desc[i][k] == "v" || desc[i][k] == "#") {
 					Cell newCell = new Cell(FLOOR, i, k);
 					grid[i][k] = newCell;
 				}
@@ -80,18 +81,26 @@ public class GridUtil {
 	
 		for (int i=0; i<desc.length; i++) {
 			for (int k=0; k<desc[i].length; k++) {
-				if (desc[i][k] == "[") {
+				if (desc[i][k].equals("[")) {
 					Block tempBlock = new Block(i, k, 1, HORIZONTAL);
 					blockList.add(tempBlock);
-				} else if (desc[i][k] == "]") {
+				} else if (desc[i][k].equals("]")) {
 					Block tempBlock = new Block(i, k, 1, HORIZONTAL);
 					blockList.add(tempBlock);
-				} else if (desc[i][k] == "^") {
+				} else if (desc[i][k].equals("^")) {
 					Block tempBlock = new Block(i, k, 1, VERTICAL);
 					blockList.add(tempBlock);
-				} else if (desc[i][k] == "v") {
+				} else if (desc[i][k].equals("v")) {
 					Block tempBlock = new Block(i, k, 1, VERTICAL);
 					blockList.add(tempBlock);
+				} else if (desc[i][k].equals("#")) {
+					if (blockList.get(blockList.size()-1).getOrientation() == VERTICAL) {
+						Block tempBlock = new Block(i, k, 1, VERTICAL);
+						blockList.add(tempBlock);
+					} else if (blockList.get(blockList.size()-1).getOrientation() == HORIZONTAL) {
+						Block tempBlock = new Block(i, k, 1, HORIZONTAL);
+						blockList.add(tempBlock);
+					}
 				}
 			}
 		}
