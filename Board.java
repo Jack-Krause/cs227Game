@@ -20,6 +20,14 @@ import static api.CellType.*;
  */
 public class Board {
 	/**
+	 * The current selected block, by grabBlockAtCell
+	 */
+	private Block grabbedBlock;
+	/**
+	 * The current selected sell where the grabbed block is located from grabBlockAtCell
+	 */
+	private Cell grabbedCell;
+	/**
 	 * 2D array of cells, the indexes signify (row, column) with (0, 0) representing
 	 * the upper-left cornner of the board.
 	 */
@@ -84,14 +92,16 @@ public class Board {
 	 * @param col column to grab the block from
 	 */
 	public void grabBlockAtCell(int row, int col) {
-		// TODO
+		grabbedCell = grid[row][col];
+		grabbedBlock = grabbedCell.getBlock();
 	}
 
 	/**
 	 * Set the currently grabbed block to null.
 	 */
 	public void releaseBlock() {
-		// TODO
+		grabbedBlock = null;
+		grabbedCell = null;
 	}
 
 	/**
@@ -100,8 +110,7 @@ public class Board {
 	 * @return the current block
 	 */
 	public Block getGrabbedBlock() {
-		// TODO
-		return null;
+		return grabbedBlock;
 	}
 
 	/**
@@ -110,8 +119,7 @@ public class Board {
 	 * @return the current cell
 	 */
 	public Cell getGrabbedCell() {
-		// TODO
-		return null;
+		return grabbedCell;
 	}
 
 	/**
@@ -124,7 +132,12 @@ public class Board {
 	 * @return true if the cell is available for a block, otherwise false
 	 */
 	public boolean canPlaceBlock(int row, int col) {
-		// TODO
+		Cell tempCell = getCell(row, col);
+		if (tempCell.isFloor() && tempCell.isExit()) {
+			if (!tempCell.hasBlock()) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -145,7 +158,7 @@ public class Board {
 	 */
 	public int getRowSize() {
 		// TODO
-		return 0;
+		return grid.length;
 	}
 
 	/**
@@ -154,8 +167,7 @@ public class Board {
 	 * @return number of columns
 	 */
 	public int getColSize() {
-		// TODO
-		return 0;
+		return grid[0].length;
 	}
 
 	/**
@@ -166,8 +178,7 @@ public class Board {
 	 * @return the cell at the specified location
 	 */
 	public Cell getCell(int row, int col) {
-		// TODO
-		return null;
+		return grid[row][col];
 	}
 
 	/**
@@ -187,7 +198,13 @@ public class Board {
 	 * @return true if the game is over
 	 */
 	public boolean isGameOver() {
-		// TODO
+		for (int i=0; i<grid.length; i++) {
+			for (int k=0; k<grid[0].length; k++) {
+				if (grid[i][k].isExit() && grid[i][k].hasBlock()) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
