@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import api.Cell;
 import api.Direction;
 import api.Move;
+import api.Orientation;//ADD THESE
+import static api.Orientation.*;
+import static api.Direction.*;
+import static api.CellType.*;
+
 
 /**
  * Represents a board in the Block Slider game. A board contains a 2D grid of
@@ -42,7 +47,19 @@ public class Board {
 	 *               should be placed on the board
 	 */
 	public Board(Cell[][] grid, ArrayList<Block> blocks) {
-		// TODO
+		this.blocks = blocks;
+		this.grid = grid;
+		
+		for (int i=0; i<blocks.size(); i++) {
+			Block tempBlock = blocks.get(i);
+			for (int k=0; k<tempBlock.getLength(); k++) {
+				if (tempBlock.getOrientation()==VERTICAL) {
+					grid[tempBlock.getFirstRow()+k][tempBlock.getFirstCol()].setBlock(tempBlock);
+				} else if (tempBlock.getOrientation()==HORIZONTAL) {
+					grid[tempBlock.getFirstRow()][tempBlock.getFirstCol()+k].setBlock(tempBlock);
+				}
+			}
+		}
 	}
 
 	/**
