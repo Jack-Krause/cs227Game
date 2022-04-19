@@ -30,8 +30,7 @@ public class GridUtil {
 	 * @return a 2D array of cells the represent the grid without any blocks present
 	 */
 	public static Cell[][] createGrid(String[][] desc) {
-		
-		int descLength=desc[0].length;
+		int descLength = desc[0].length;
 		Cell[][] grid = new Cell[desc.length][descLength];
 		for (int i=0; i<desc.length; i++) {
 			for (int k=0; k<desc[i].length; k++) {
@@ -75,37 +74,47 @@ public class GridUtil {
 	 * @param desc a 2D array of strings describing the grid
 	 * @return a list of blocks found in the given grid description
 	 */
-	public static ArrayList<Block> findBlocks(String[][] desc) {
+	public static ArrayList<Block> findBlocks(String[][] desc) throws ArrayIndexOutOfBoundsException {
 		ArrayList<Block> blockList = new ArrayList<Block>();
-		
-	
-		for (int i=0; i<desc.length; i++) {
-			for (int k=0; k<desc[i].length; k++) {
-				if (desc[i][k].equals("[")) {
-					Block tempBlock = new Block(i, k, 1, HORIZONTAL);
-					blockList.add(tempBlock);
-				} else if (desc[i][k].equals("]")) {
-					Block tempBlock = new Block(i, k, 1, HORIZONTAL);
-					blockList.add(tempBlock);
-				} else if (desc[i][k].equals("^")) {
-					Block tempBlock = new Block(i, k, 1, VERTICAL);
-					blockList.add(tempBlock);
-				} else if (desc[i][k].equals("v")) {
-					Block tempBlock = new Block(i, k, 1, VERTICAL);
-					blockList.add(tempBlock);
-				} else if (desc[i][k].equals("#")) {
-					if (blockList.get(blockList.size()-1).getOrientation() == VERTICAL) {
+		if (!(desc.length==0)) {
+			for (int i=0; i<desc.length; i++) {
+				for (int k=0; k<desc[i].length; k++) {
+					if (desc[i][k].equals("[") && desc[i][k+1].equals("*") && desc[i][k+2].equals("]")) {
+						Block tempBlock = new Block(i, k, 3, HORIZONTAL);
+						blockList.add(tempBlock);
+					} else if (desc[i][k].equals("[") && desc[i][k+1].equals("]")) {
+						Block tempBlock = new Block(i, k, 2, HORIZONTAL);
+						blockList.add(tempBlock);
+					} else if (desc[i][k].equals("[") && desc[i][k+1].equals("*") && desc[i][k+2].equals("*")) {
+						int counter = 0;
+						for (int b=k; b<desc[i].length; b++) {
+							if (desc[i][b].equals("*")) {
+								counter++;
+							}
+							Block tempBlock = new Block(i, k, counter, HORIZONTAL);
+							blockList.add(tempBlock);
+						}
+				// Vertical section
+					} else if (desc[i][k].equals("^") && desc[i+1][k].equals("v")) {
 						Block tempBlock = new Block(i, k, 1, VERTICAL);
 						blockList.add(tempBlock);
-					} else if (blockList.get(blockList.size()-1).getOrientation() == HORIZONTAL) {
-						Block tempBlock = new Block(i, k, 1, HORIZONTAL);
+					} else if (desc[i][k].equals("^") && desc[i+1][k].equals("*") && desc[i+2][k].equals("v")) {
+						Block tempBlock = new Block(i, k, 2, VERTICAL);
 						blockList.add(tempBlock);
+					} else if (desc[i][k].equals("^") && desc[i+1][k].equals("*") && desc[i+2][k].equals("*")) {
+						for (int b=i; b<desc.length; b++) {
+							int counterB = 0;
+							if (desc[b][k].equals("*")) {
+								counterB++;
+							}
+							Block tempBlock = new Block(i, k, counterB, VERTICAL);
+							blockList.add(tempBlock);
+						}
 					}
-				}
-			}
+						
+					}
+			}			
 		}
-		
-		
 		return blockList;
 	}
 }
