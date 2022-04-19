@@ -3,7 +3,7 @@ package hw3;
 import static api.Direction.*;
 
 import api.Direction;
-import api.Orientation;
+import api.Orientation;//ADD THESE
 import static api.Orientation.*;
 import static api.Direction.*;
 import static api.CellType.*;
@@ -20,7 +20,7 @@ public class Block {
 	private int firstCol;
 	private int length;
 	private Orientation orientation;
-	
+
 
 	/**
 	 * Constructs a new Block with a specific location relative to the board. The
@@ -35,13 +35,13 @@ public class Block {
 	 * @param orientation either HORIZONTAL or VERTICAL
 	 */
 	public Block(int firstRow, int firstCol, int length, Orientation orientation) {
-		// TODO
 		this.firstRow = firstRow;
 		this.firstCol = firstCol;
 		this.length = length;
 		this.orientation = orientation;
 		rowSaved = firstRow;
 		colSaved = firstCol;
+
 	}
 
 	/**
@@ -79,6 +79,7 @@ public class Block {
 //				col--;
 			}
 		}
+	
 	}
 
 	/**
